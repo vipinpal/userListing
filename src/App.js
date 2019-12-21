@@ -17,6 +17,7 @@ export class App extends React.Component {
         info: {},
         filterKeys: ['species', 'gender', 'origin'],
         filterData: {},
+        selectedfilter: [],
         showLoader: true,
         sortBy: 'asc',
         url: 'https://rickandmortyapi.com/api/character/',
@@ -53,6 +54,11 @@ export class App extends React.Component {
 
   updateFilter = (filters) => {
     const { filterKeys } = this.state;
+    let selectedfilter = [];
+    Object.keys(filters).forEach(d => {
+      filters[d].forEach(dd => selectedfilter.push(dd));
+    });
+    selectedfilter = [... new Set(selectedfilter)];
     let newData = this.state.storedData.filter(od => {
       if (filterKeys[0] in filters && filters[filterKeys[0]].indexOf(od[filterKeys[0]]) >= 0) {
         return true;
@@ -67,7 +73,7 @@ export class App extends React.Component {
     if (newData.length <= 0) {
       newData = [...this.state.storedData];
     }
-    this.setState({ data: this.getSortData(newData)});
+    this.setState({ data: this.getSortData(newData), selectedfilter: selectedfilter });
   }
 
   sortData = (type) => {
@@ -88,7 +94,7 @@ export class App extends React.Component {
             {
               data.length < 1 && showLoader ?
               <AppLoader />: 
-              <CardList data={data} sortBy={this.state.sortBy} sortData={(type) => this.sortData(type)} />
+              <CardList data={data} sortBy={this.state.sortBy} sortData={(type) => this.sortData(type)} filter={this.state.selectedfilter} />
             }
           </Grid>
         </Grid>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, withStyles, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import React, { Fragment } from 'react';
+import { Grid, withStyles, Select, MenuItem, FormControl, InputLabel, Chip } from '@material-ui/core';
 
 import Card from './CardComponent';
 
@@ -14,6 +14,14 @@ const styles = (theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     display: 'flex',
+  },
+  chips: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    display: 'flex',
+  },
+  space: {
+    marginRight: 3,
   }
 });
 
@@ -24,6 +32,14 @@ class CardList extends React.Component {
       <div className={classes.paper}>
         <Grid container spacing={2} alignItems="stretch" direction="row">
             {data.length <= 0 ? 'No Data Found' : ''}
+            {this.props.filter && this.props.filter.length > 0 &&
+              <Fragment>
+                Select Filter
+                <Grid item xs={12} sm={12} className={classes.chips}>
+                  {this.props.filter.map(d => <Chip className={classes.space} size="small" label={d} color="secondary" />)}
+                </Grid>
+              </Fragment>
+            }
             <Grid item xs={12} sm={12} className={classes.alien}>
             <FormControl className={classes.formControl}>
               <InputLabel id="sort">Sort by ID</InputLabel>
