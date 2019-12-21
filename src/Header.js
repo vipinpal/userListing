@@ -16,7 +16,7 @@ class Header extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-        <AppBar className={classes.fixed}>
+        <AppBar className={classes.fixed} color="secondary">
             <Toolbar>
                 <Typography variant="h6" className={classes.title}>
                     Rick & Morty Show
